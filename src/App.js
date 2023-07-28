@@ -1,25 +1,22 @@
 import logo from './logo.svg';
 import './App.css';
+import {useState, useEffect} from 'react';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [name, setName] = useState( () => window.localStorage.getItem('name') || '');
+	const changeName = event => setName(event.target.value);
+	useEffect(() => {
+		window.localStorage.setItem('name',name);
+	}, [name]);
+	return (
+		<div>
+			<form className="form">
+				<label htmlFor="form_name">Name</label>
+				<input value={name} id="form_name" onChange={changeName} />
+				{name? <strong>Hello {name}</strong>:'Please type your name.'}
+			</form>
+		</div>
+	);
 }
 
 export default App;
